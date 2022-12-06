@@ -30,11 +30,18 @@ void SwitchFontLoader::loadFonts()
     Result rc;
 
     // Standard
-    rc = plGetSharedFontByType(&font, PlSharedFontType_ChineseSimplified);
+    rc = plGetSharedFontByType(&font, PlSharedFontType_Standard);
     if (R_SUCCEEDED(rc))
         Application::loadFontFromMemory(FONT_REGULAR, font.address, font.size, false);
     else
         Logger::error("switch: could not load Standard shared font: {:#x}", rc);
+
+    // Chinese Simplified
+    rc = plGetSharedFontByType(&font, PlSharedFontType_ChineseSimplified);
+    if (R_SUCCEEDED(rc))
+        Application::loadFontFromMemory(FONT_CHINESE_REGULAR, font.address, font.size, false);
+    else
+        Logger::error("switch: could not load Chinese shared font: {:#x}", rc);
 
     // Korean
     rc = plGetSharedFontByType(&font, PlSharedFontType_KO);
