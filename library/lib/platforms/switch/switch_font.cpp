@@ -30,7 +30,7 @@ void SwitchFontLoader::loadFonts()
     Result rc;
 
     // Standard
-    rc = plGetSharedFontByType(&font, PlSharedFontType_Standard);
+    rc = plGetSharedFontByType(&font, PlSharedFontType_ChineseSimplified);
     if (R_SUCCEEDED(rc))
         Application::loadFontFromMemory(FONT_REGULAR, font.address, font.size, false);
     else
