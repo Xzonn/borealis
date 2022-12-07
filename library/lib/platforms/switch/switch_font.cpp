@@ -20,35 +20,32 @@
 #include <borealis/core/application.hpp>
 #include <borealis/core/logger.hpp>
 #include <borealis/platforms/switch/switch_font.hpp>
+#include <borealis/core/i18n.hpp>
 
 namespace brls
 {
 
 void SwitchFontLoader::loadFonts()
 {
+    std::string locale = Application::getLocale();
+    PlSharedFontType ft = PlSharedFontType_Standard;
+    if (locale == LOCALE_ZH_CN || locale == LOCALE_ZH_HANS) {
+        ft = PlSharedFontType_ChineseSimplified;
+    } else if (locale == LOCALE_ZH_TW || locale == LOCALE_ZH_HANT) {
+        ft = PlSharedFontType_ChineseTraditional;
+    } else if (locale == LOCALE_Ko) {
+        ft = PlSharedFontType_KO;
+    }
+
     PlFontData font;
     Result rc;
 
     // Standard
-    rc = plGetSharedFontByType(&font, PlSharedFontType_Standard);
+    rc = plGetSharedFontByType(&font, ft);
     if (R_SUCCEEDED(rc))
         Application::loadFontFromMemory(FONT_REGULAR, font.address, font.size, false);
     else
         Logger::error("switch: could not load Standard shared font: {:#x}", rc);
-
-    // Chinese Simplified
-    rc = plGetSharedFontByType(&font, PlSharedFontType_ChineseSimplified);
-    if (R_SUCCEEDED(rc))
-        Application::loadFontFromMemory(FONT_CHINESE_REGULAR, font.address, font.size, false);
-    else
-        Logger::error("switch: could not load Chinese shared font: {:#x}", rc);
-
-    // Korean
-    rc = plGetSharedFontByType(&font, PlSharedFontType_KO);
-    if (R_SUCCEEDED(rc))
-        Application::loadFontFromMemory(FONT_KOREAN_REGULAR, font.address, font.size, false);
-    else
-        Logger::error("switch: could not load Korean shared font: {:#x}", rc);
 
     // Extented (symbols)
     rc = plGetSharedFontByType(&font, PlSharedFontType_NintendoExt);

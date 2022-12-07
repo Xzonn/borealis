@@ -136,15 +136,7 @@ void Application::createWindow(std::string windowTitle)
     // Load fonts and setup fallbacks
     Application::platform->getFontLoader()->loadFonts();
 
-    std::string locale = Application::getLocale();
-
     int regular = Application::getFont(FONT_REGULAR);
-    
-    if (locale == LOCALE_ZH_CN || locale == LOCALE_ZH_HANS) {
-        regular = Application::getFont(FONT_CHINESE_REGULAR);
-    } else if (locale == LOCALE_Ko) {
-        regular = Application::getFont(FONT_KOREAN_REGULAR);
-    }
     if (regular != FONT_INVALID)
     {
         NVGcontext* vg = Application::getNVGContext();
